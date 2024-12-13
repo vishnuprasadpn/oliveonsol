@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snowfall Animation</title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: linear-gradient(180deg, #d44c3e, #a12316);
+    }
+    @font-face {
+        font-family: olive_url;
+        src: url(olive-font.woff2);
+    }
+    body{
+        margin:0;
+    }
+    p,h1{
+        font-family: olive_url;
+        color: #fff;
+    }
+    p {
+        text-align: center;
+        font-size: 44px;
+        margin-top: 0px;
+    }
+    
+    img{
+        height: 220px;
+    }
+    #olive-title{
+        font-size: 88px;
+    }
+    .snowflake {
+      position: absolute;
+      top: -5vh;
+      font-size: var(--size);
+      color: white;
+      opacity: var(--opacity);
+      animation: snowfall var(--duration) linear infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes snowfall {
+      0% {
+        transform: translate3d(var(--left-ini), 0, 0);
+      }
+      100% {
+        transform: translate3d(var(--left-end), 110vh, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+    <img src="OLIVE-Log.png" alt="" srcset="">
+    <h1 id="olive-title">Olive</h1>
+    <p id="timer"></p>
+  <script>
+    // Set the date we're counting down to
+    var countDownDate = new Date("Dec 25, 2024 15:37:25").getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+    // Get today's date and time
+    var now = new Date().getTime();
+        
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+        
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+    // Output the result in an element with id="timer"
+    document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+    + minutes + "m " + seconds + "s ";
+        
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "EXPIRED";
+    }
+    }, 1000);
+    // Number of snowflakes
+    const snowflakeCount = 50;
+
+    // Create and append snowflakes to the body
+    for (let i = 1; i <= snowflakeCount; i++) {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+
+      // Random snowflake character
+      const snowflakeChars = ['❄', '❅', '❆'];
+      snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+
+      // Random size: small (1vw), medium (2vw), large (3vw)
+      const size = (Math.random() * 2 + 1).toFixed(2) + 'vw';
+      snowflake.style.setProperty('--size', size);
+
+      // Random opacity (0.5 to 1)
+      const opacity = (Math.random() * 0.5 + 0.5).toFixed(2);
+      snowflake.style.setProperty('--opacity', opacity);
+
+      // Random initial and end horizontal positions
+      const leftIni = (Math.random() * 20 - 10).toFixed(2) + 'vw'; // Between -10vw and 10vw
+      const leftEnd = (Math.random() * 20 - 10).toFixed(2) + 'vw';
+      snowflake.style.setProperty('--left-ini', leftIni);
+      snowflake.style.setProperty('--left-end', leftEnd);
+
+      // Set random starting position within the viewport
+      const left = Math.random() * 100 + 'vw';
+      snowflake.style.left = left;
+
+      // Random animation duration (5s to 15s)
+      const duration = (Math.random() * 10 + 5).toFixed(2) + 's';
+      snowflake.style.setProperty('--duration', duration);
+
+      // Random animation delay (-10s to 0s)
+      const delay = `-${(Math.random() * 10).toFixed(2)}s`;
+      snowflake.style.setProperty('--delay', delay);
+
+      document.body.appendChild(snowflake);
+    }
+  </script>
+</body>
+</html>
